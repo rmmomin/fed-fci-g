@@ -43,6 +43,19 @@ The index is calculated using quarterly (3-month) differences of these drivers, 
 
 ## Prerequisites
 
+### Python Implementation
+
+Python 3.7 or higher is required. Install dependencies using:
+```bash
+cd python
+pip install -r requirements.txt
+```
+
+Required packages:
+- pandas (>=1.3.0)
+- numpy (>=1.21.0)
+- python-dateutil (>=2.8.0)
+
 ### R Implementation
 
 The following R packages are required:
@@ -56,19 +69,6 @@ Install them using:
 ```r
 install.packages(c("doParallel", "lubridate", "tidyverse", "foreach", "timeDate"))
 ```
-
-### Python Implementation
-
-Python 3.7 or higher is required. Install dependencies using:
-```bash
-cd python
-pip install -r requirements.txt
-```
-
-Required packages:
-- pandas (>=1.3.0)
-- numpy (>=1.21.0)
-- python-dateutil (>=2.8.0)
 
 ## Usage
 
