@@ -19,20 +19,40 @@ The index is calculated using quarterly (3-month) differences of these drivers, 
 
 ```
 .
-├── data/                   # CSV data files
+├── data/                   # Input data files
 │   ├── fci_g_public_monthly_1yr.csv
 │   ├── fci_g_public_monthly_3yr.csv
 │   ├── fci_g_public_quarterly_1yr.csv
-│   └── fci_g_public_quarterly_3yr.csv
+│   ├── fci_g_public_quarterly_3yr.csv
+│   └── real_gdp_growth_qoq_annualized.csv
 ├── docs/                   # Documentation
 │   ├── The Fed - A New Index to Measure U.S. Financial Conditions.pdf
 │   └── fcg-i_data_definitions_508-3281.pdf
+├── figures/                # Generated visualizations
+│   ├── fci_g_index.png
+│   ├── fci_g_components.png
+│   ├── real_gdp_growth_qoq_annualized.png
+│   ├── tailwind_gdp_timeseries.png
+│   ├── tailwind_gdp_scatter.png
+│   ├── var_irf_growth.png
+│   └── var_irf_cumulative.png
 ├── python/                 # Python implementation
 │   ├── calculate_fci.py
 │   ├── utility_functions.py
+│   ├── fetch_gdp_data.py
+│   ├── plot_fci_data.py
+│   ├── plot_gdp_data.py
+│   ├── plot_tailwind_gdp.py
+│   ├── var_impulse_response.py
 │   ├── input_data.csv
 │   ├── multipliers.csv
 │   └── requirements.txt
+├── results/                # Analysis outputs
+│   ├── tailwind_gdp_timeseries_data.csv
+│   ├── tailwind_gdp_scatter_data.csv
+│   ├── var_estimation_data.csv
+│   ├── var_irf_results.csv
+│   └── var_irf_summary_table.csv
 ├── scripts/                # R scripts
 │   ├── input_data.csv
 │   ├── multipliers.csv
@@ -55,6 +75,8 @@ Required packages:
 - pandas (>=1.3.0)
 - numpy (>=1.21.0)
 - python-dateutil (>=2.8.0)
+- matplotlib (>=3.5.0)
+- statsmodels (>=0.13.0)
 
 ### R Implementation
 
@@ -129,6 +151,56 @@ The script generates:
 The `data/` directory contains pre-calculated FCI-G values:
 - Monthly indices (1-year and 3-year versions)
 - Quarterly indices (1-year and 3-year versions)
+- Real GDP growth (q/q annualized) from FRED
+
+## Analysis Scripts
+
+### Data Fetching
+
+```bash
+# Fetch real GDP growth data from FRED
+python python/fetch_gdp_data.py
+```
+
+Requires a `.env` file with your FRED API key:
+```
+FRED_API_KEY=your_api_key_here
+```
+
+### Visualization
+
+```bash
+# Plot FCI-G index and components
+python python/plot_fci_data.py
+
+# Plot real GDP growth
+python python/plot_gdp_data.py
+
+# Plot tailwind vs GDP growth (time series and scatter)
+python python/plot_tailwind_gdp.py
+```
+
+### Econometric Analysis
+
+```bash
+# VAR impulse response analysis
+python python/var_impulse_response.py
+```
+
+This script:
+- Estimates a bivariate VAR model (tailwind, GDP growth)
+- Computes orthogonalized impulse response functions
+- Generates 95% confidence bands via Monte Carlo simulation
+- Outputs results to `results/` and plots to `figures/`
+
+## Results
+
+The `results/` directory contains analysis outputs:
+- `tailwind_gdp_timeseries_data.csv` - Time series data for tailwind vs GDP
+- `tailwind_gdp_scatter_data.csv` - Scatter plot data
+- `var_estimation_data.csv` - VAR model estimation sample
+- `var_irf_results.csv` - Full IRF results (all horizons)
+- `var_irf_summary_table.csv` - IRF summary (h=0 to h=5)
 
 ## Documentation
 
